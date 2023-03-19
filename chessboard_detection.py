@@ -15,7 +15,7 @@ def find_chessboards(image: str) -> list[np.ndarray]:
     """
     image = iu.load_image(image)
     # image = iu.to_opencv2_image(image)
-    image = cv2.copyMakeBorder(image, 5, 5, 5, 5, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+    image = cv2.copyMakeBorder(image, 10, 10, 10, 10, cv2.BORDER_CONSTANT, value=[255, 255, 255])
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
     contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -36,9 +36,9 @@ def find_chessboards(image: str) -> list[np.ndarray]:
 
     # Check area of boards
     # Boards must be approximately the same size
-    # Get median area of boards and filter boards with area outside of 15% of median area
-    median_area = np.median(areas)
-    boards = [board for board in boards if median_area * 0.85 < board.shape[0] * board.shape[1] < median_area * 1.15]
+    # Get max area and remove boards that are less than 85% of that
+    max_area = max(areas)
+    boards = [board for board in boards if board.shape[0] * board.shape[1] > max_area * 0.85]
 
     return boards
 

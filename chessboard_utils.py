@@ -36,7 +36,6 @@ def detect_lines(image: np.ndarray, lines_threshold: int = 600, vertical_error: 
     :param horizontal_error: The error for the horizontal lines (in degrees)
     :return: A dictionary containing the horizontal and vertical lines
     """
-    # Convert the image to grayscale
     lines = cv2.HoughLines(image, 2, np.pi / 180, lines_threshold, None, 0, 0)
     if lines is None:
         return None
@@ -66,7 +65,8 @@ def detect_lines(image: np.ndarray, lines_threshold: int = 600, vertical_error: 
 
 def get_intersection_points(lines: dict[str, list[Line]]) -> list[Point]:
     """
-    Calculate the intersection points of all the lines in the dictionary and return them in a list of tuples containing the x and y coordinates
+    Calculate the intersection points of all the lines in the dictionary
+    and return them in a list of tuples containing the x and y coordinates
     
     :param lines: A dictionary containing the horizontal and vertical lines
     :return: A list of tuples containing the intersection points

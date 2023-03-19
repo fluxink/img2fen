@@ -5,9 +5,12 @@ import logging
 def load_image(img: str) -> np.ndarray:
     """
     Load the image from the given path or from the given numpy array
+
+    :param img: The path to the image or the numpy array
+    :return: The image as a numpy array
     """
     if isinstance(img, np.ndarray):
-        image = img
+        image = img # TODO: Add conversion to OpenCV2 format
         return image
 
     image = cv2.imread(img)
@@ -48,6 +51,7 @@ def to_opencv2_image(img):
 def add_frame(image: np.ndarray, thickness=2) -> np.ndarray:
     """
     Add a frame to the image
+
     :param image: The image to add the frame to
     :param thickness: The thickness of the frame
     :return: The image with the frame
@@ -59,6 +63,7 @@ def add_frame(image: np.ndarray, thickness=2) -> np.ndarray:
 def crop_image(image: np.ndarray, zoom_size: int) -> list[np.ndarray]:
     """
     Crop the image into 64 squares
+
     :param image: The image to crop
     :param zoom_size: The size of the zoom
     :return: A list of the cropped squares
@@ -93,6 +98,7 @@ def crop_image(image: np.ndarray, zoom_size: int) -> list[np.ndarray]:
 def crop_squares(image, squares: list[tuple[int, int]]) -> list[np.ndarray]:
     """
     Crop the squares from the image
+    
     :param image: The image to crop the squares from
     :param squares: The list of corners of the squares to crop from the image (upper left and lower right)
     :return: A list of the cropped squares
