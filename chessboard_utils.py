@@ -179,6 +179,8 @@ def generate_fen(squares: list, model: torch.nn.Module, transform: transforms.Co
     :param transform: PyTorch transform used to preprocess squares images
     :return: FEN string
     """
+    if not squares:
+        raise ValueError("Squares list is empty")
 
     with torch.no_grad():
         board = []
