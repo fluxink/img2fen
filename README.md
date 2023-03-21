@@ -18,7 +18,7 @@ You also need to install PyTorch and TorchVision. Please refer to the [official 
 
 ## 2. Run
 ```bash
-$ python img2fen.py --input <input_image_path>
+$ python img2fen.py <input_image_path>
 ```
 
 # Example

@@ -7,7 +7,6 @@ from chessboard_utils import generate_fen
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - [%(levelname)s] - %(funcName)s(%(lineno)d) - %(message)s')
 
-
     parser = argparse.ArgumentParser(description='Generate FEN from chessboard image.')
     parser.add_argument('input',
                         type=str,
