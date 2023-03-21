@@ -6,7 +6,7 @@ import image_utils as iu
 from image_profiles import PROFILES
 
 
-def find_chessboards(image: str) -> list[np.ndarray]:
+def find_chessboards(image: str, show: bool = False) -> list[np.ndarray]:
     """
     Tries to find chessboards in an image and returns a list of the cropped chessboards.
 
@@ -39,6 +39,12 @@ def find_chessboards(image: str) -> list[np.ndarray]:
     # Get max area and remove boards that are less than 85% of that
     max_area = max(areas)
     boards = [board for board in boards if board.shape[0] * board.shape[1] > max_area * 0.85]
+
+    if show:
+        for board in boards:
+            cv2.imshow('board', board)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
 
     return boards
 
@@ -96,7 +102,7 @@ def detect_squares(image: str, show: bool = False, **kwargs) -> list[np.ndarray]
         kwargs['frame'] = True
     if 'frame_thickness' not in kwargs:
         kwargs['frame_thickness'] = 10
-    if 'profile' not in kwargs:
+    if 'profile' not in kwargs or kwargs['profile'] is None:
         profiles = PROFILES
     elif 'profile' in kwargs and isinstance(kwargs['profile'], int):
         profiles = PROFILES[kwargs['profile']]
@@ -203,17 +209,34 @@ class Point81(Exception):
 
 # For testing
 if __name__ == '__main__':
+    from nn_utils import load_model, ChessCNNv3
+    from chessboard_utils import generate_fen
+
     logging.basicConfig(level=logging.DEBUG)
 
-    squares = detect_squares('opencv/1b1B3r-6k1-8-5P1p-1K6-8-8-3n1B2.jpeg', 
-                             show=True,
-                             vertical_error=0.5,
-                             horizontal_error=0.5,
-                             threshold_x=20,
-                             threshold_y=20,
-                             lines_threshold=400)
+    boards = find_chessboards('opencv/boards2.jpg', show=True)
+    for i, board in enumerate(boards):
+        detect_squares(board,
+                       show=True,
+                       vertical_error=0.5,
+                       horizontal_error=0.5,
+                       threshold_x=20,
+                       threshold_y=20,
+                       lines_threshold=400)
+    
 
-    print(squares[-1].shape)
+    # squares = detect_squares('opencv/1b1B3r-6k1-8-5P1p-1K6-8-8-3n1B2.jpeg', 
+    #                          show=True,
+    #                          vertical_error=0.5,
+    #                          horizontal_error=0.5,
+    #                          threshold_x=20,
+    #                          threshold_y=20,
+    #                          lines_threshold=400)
+
+    # model, model_transform = load_model('model/model85.pth')
+
+    # print(squares[-1].shape)
+    # print(generate_fen(squares, model, model_transform))
 
     # for i, square in enumerate(squares):
     #     cv2.imwrite(f'opencv/squares_new/{i}.png', square)
