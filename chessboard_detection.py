@@ -105,7 +105,7 @@ def detect_squares(image: str, show: bool = False, **kwargs) -> list[np.ndarray]
     if 'profile' not in kwargs or kwargs['profile'] is None:
         profiles = PROFILES
     elif 'profile' in kwargs and isinstance(kwargs['profile'], int):
-        profiles = PROFILES[kwargs['profile']]
+        profiles = [PROFILES[kwargs['profile']]]
     elif 'profile' in kwargs and isinstance(kwargs['profile'], list):
         profiles = kwargs['profile']
     else:
