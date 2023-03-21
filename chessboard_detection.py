@@ -96,6 +96,14 @@ def detect_squares(image: str, show: bool = False, **kwargs) -> list[np.ndarray]
         kwargs['frame'] = True
     if 'frame_thickness' not in kwargs:
         kwargs['frame_thickness'] = 10
+    if 'profile' not in kwargs:
+        profiles = PROFILES
+    elif 'profile' in kwargs and isinstance(kwargs['profile'], int):
+        profiles = PROFILES[kwargs['profile']]
+    elif 'profile' in kwargs and isinstance(kwargs['profile'], list):
+        profiles = kwargs['profile']
+    else:
+        raise ValueError(f'Invalid profile: {kwargs["profile"]}')
 
     logging.debug(f'Using parameters: {kwargs}')
     logging.debug(f'Loading image from {type(image)}')
@@ -106,7 +114,7 @@ def detect_squares(image: str, show: bool = False, **kwargs) -> list[np.ndarray]
         logging.debug(f'Adding frame with thickness {kwargs["frame_thickness"]}')
         image = iu.add_frame(image, kwargs['frame_thickness'])
 
-    for profile in PROFILES:
+    for profile in profiles:
         lines_threshold = kwargs['lines_threshold']
         threshold_x = kwargs['threshold_x']
         threshold_y = kwargs['threshold_y']
