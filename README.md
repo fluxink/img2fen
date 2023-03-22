@@ -23,7 +23,7 @@ $ python img2fen.py <input_image_path>
 
 # Example
 ## Input
-![input](pic/example0.jpg)
+<img src="pic/example0.jpg" width="221" height="221"> <img src="pic/processing.gif" width="221" height="236">
 
 ## Output
 ```bash
